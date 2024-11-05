@@ -28,9 +28,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#page-top">HOME</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#portfolio">BLOG</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#team">IAM</a></li>
+                        <li class="nav-item"><a class="nav-link" data-bs-target="#page-top" href="{% url 'home' %}#page-top">HOME</a></li>
+                        <li class="nav-item"><a class="nav-link" data-bs-target="#portfolio" href="{% url 'home' %}#portfolio">BLOG</a></li>
+                        <li class="nav-item"><a class="nav-link" data-bs-target="#team" href="{% url 'home' %}#team">IAM</a></li> <!--data-bs-target-> js에서 사용하는 쿼리값을 전달하는 속성-->
                         <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">ADMIN</a></li>
                     </ul>
                 </div>
