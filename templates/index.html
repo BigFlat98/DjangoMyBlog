@@ -1,163 +1,129 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 {% block title %}index.html{% endblock %}
 
-{% block content %}
- <!-- Portfolio Grid-->
- <section class="page-section bg-light" id="portfolio">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Portfolio</h2>
-            <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Portfolio item 1-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" href="{% url 'blog:post_detail' 1 %}">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+        {% block content %}
+        <!-- Portfolio Grid-->
+        <section class="page-section bg-light" id="portfolio">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">Portfolio</h2>
+                    <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                </div>
+                <div class="row">
+                    <div v-for="post in postList" :key="post.id" class="col-lg-4 col-sm-6 mb-4">
+                        <!-- Portfolio item 1-->
+                        <div class="portfolio-item">
+                            <a class="portfolio-link" :href="`/blog/post/${post.id}/#post`">
+                                <div class="portfolio-hover">
+                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                </div>
+                                <img class="img-fluid" :src="post.image" alt="..." />
+                            </a>
+                            <div class="portfolio-caption">
+                                <div class="portfolio-caption-heading">[[ post.title ]]</div>
+                                <div class="portfolio-caption-subheading text-muted">[[ post.category ]]</div>
+                            </div>
                         </div>
-                        <img class="img-fluid" src="{% static 'assets/img/portfolio/1.jpg' %}" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Threads</div>
-                        <div class="portfolio-caption-subheading text-muted">Illustration</div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Portfolio item 2-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal2">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+        </section>
+        <!-- Team-->
+        <section class="page-section bg-light" id="team">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">IAM</h2>
+                    <h3 class="section-subheading text-muted">중요한건 꺽이지않는 마음</h3>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="team-member">
+                            <img class="mx-auto rounded-circle" src="{% static 'assets/img/team/faker.jpg' %}" alt="faker" />
+                            <h4>Pieter Kim</h4>
+                            <p class="text-muted">Super Super Instructor</p>
+                            <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Parveen Anand Twitter Profile"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Parveen Anand Facebook Profile"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Parveen Anand LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
                         </div>
-                        <img class="img-fluid" src="{% static 'assets/img/portfolio/2.jpg' %}" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Explore</div>
-                        <div class="portfolio-caption-subheading text-muted">Graphic Design</div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div>
+                            <p class="fs-2 fw-bold">
+                                [ 부천그린컴퓨터 ]
+                            </p>
+                            <p class="fs-4">
+                                LLM을 활용한 풀스택 개발자 과정
+                            </p>
+                        </div>
+                        <div>
+                            <p class="fs-2 fw-bold">
+                                [ T1 월즈 5회 우승 축하 ]
+                            </p>
+                            <p class="fs-4">
+                                아~~ 행복하다~!!!
+                            </p>
+                        </div> 
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Portfolio item 3-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal3">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="{% static 'assets/img/portfolio/3.jpg' %}" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Finish</div>
-                        <div class="portfolio-caption-subheading text-muted">Identity</div>
-                    </div>
+                <div class="row">
+                    <div class="col-lg-8 mx-auto text-center"><p class="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p></div>
                 </div>
             </div>
+        </section>
         </div>
-    </div>
-</section>
-<!-- Team-->
-<section class="page-section bg-light" id="team">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">I am</h2>
-            <h3 class="section-subheading text-muted">하다보니 되더라</h3>
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="team-member">
-                    <img class="mx-auto rounded-circle" src="{% static 'assets/img/team/1.webp' %}" alt="..." />
-                    <h4>황탁춘</h4>
-                    <p class="text-muted">건드리면 짖음</p>
-                    <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Parveen Anand Twitter Profile"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Parveen Anand Facebook Profile"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Parveen Anand LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div>
-                    <p class='fs-2 fw-bold'>
-                        [ T1 월즈 6회 우승 기원]
-                    </p>
-                    <p class='fs-3'>
-                        해야하는 자리
-                    </p>
-                </div>
-                <div>
-                    <p class='fs-2 fw-bold'>
-                        [ T1 월즈 5회 우승 축하]
-                    </p>
-                    <p class='fs-4'>
-                        진짜 해버린
-                    </p>
-                </div>
-                소개 내용....
-            </div>
-        </div>
+        {% endblock %}
         
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center"><p class="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p></div>
-        </div>
-    </div>
-</section>
-{% endblock %}
-
-{% block footer %}
- <!-- Footer-->
- <footer class="footer py-4">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-4 text-lg-start">Copyright &copy; Your Website 2023</div>
-            <div class="col-lg-4 my-3 my-lg-0">
-                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        {% block footer %}
+        <!-- Footer-->
+        <footer class="footer py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 text-lg-start">Copyright &copy; Your Website 2023</div>
+                    <div class="col-lg-4 my-3 my-lg-0">
+                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                    <div class="col-lg-4 text-lg-end">
+                        <a class="link-dark text-decoration-none me-3" href="#!">Privacy Policy</a>
+                        <a class="link-dark text-decoration-none" href="#!">Terms of Use</a>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-4 text-lg-end">
-                <a class="link-dark text-decoration-none me-3" href="#!">Privacy Policy</a>
-                <a class="link-dark text-decoration-none" href="#!">Terms of Use</a>
-            </div>
-        </div>
-    </div>
-</footer>
-{% endblock %}
-{% block extra-script%}
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> <!--vue cdn-->
-    <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script> <!--axios cdn-->
+        </footer>
+        {% endblock %}
 
-    
-    <script>
-        //vue로 사용하는 앱을 클래스 형태로 정의. 이건 vue앱을 생성하는 문법임. 클래스 만드는게 아니라
-        //js코드는 따로 호출되지 않아도 html을 실행하면 자동으로 실행됨.
-        const PostListApp = {
-            delimiters:['[[',']]'], //vue랑 django템플릿을 둘 다 쓰고 있기 때문에 템플릿 충돌을 방지하기 위한 코드
-            data(){ //post로 데이터를 받아온 값을 저장할 함수
-                return{
-                    postList: [] //Django에서 보낸 Post 레코드 들을 json형태로 저장할 곳
-                };
-            },
-            creaet(){ //렌더링되기 전에 create단계를 거치는데 그 단계에서 수행할 내용 작성
-                //create -> dom에 있는 엘리멘트를 통해서 컴포넌트(엘리멘트로 화면에 뿌려지는 내용 생성)를 생성하는 과정
-                consol.log('created()...');
-                this.fetchPostList() //
-            },
-            method: {//함수 정의 부분
-                fetchPostList(){
-                    axios.get('/api/post/list') //파라미터로 들어가는 url로 비동기 get통신
-                    .then(res =>{ //앞의 함수가 성공을 하면 실행. 성공했을 때 받은 response를 res에 받고 
-                        console.log('FETCHPOSTLIST GET RES');
-                        this.postList = res.data; //받은 데이터를 리스트에 저장
-                    })
-                    .catch(err => { //앞 함수 실패시 실행
-                        console.log("FETCHPOSTLIST GET ERR.RESPONSE",err.response);
-                        alert('${err.response.status}${err.respone.statusTExt}');
-                    });
+        {% block extra-script %}
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+        <script>
+            const PostListApp = {
+                delimiters: ['[[',']]'], //Vue랑 Django 템플릿 충돌 방지
+                data() {
+                    return {
+                        postList: [] // Post 목록 데이터를 저장할 변수
+                    };
                 },
-            },
+                created(){
+                    console.log("created()...");
+                    this.fetchPostList();
+                },
+                methods: {
+                    fetchPostList() {
+                        axios.get('/api/post/list')
+                        .then(res => {
+                            console.log("FETCH POSTLIST GET RES", res);
+                            this.postList = res.data;
+                        })
+                        .catch(err => {
+                            console.log("FETCH POSTLIST GET ERR.RESPONSE", err.response);
+                            alert(`${err.response.status}${err.response.statusText}`);
+                        });
+                    },
+                },
+            };
 
-        }
-    </script>
-{% endblock %}
+        Vue.createApp(PostListApp).mount('#page-top')
+        </script>
+        {% endblock %}
