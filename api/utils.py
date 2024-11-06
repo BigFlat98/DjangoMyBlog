@@ -31,3 +31,25 @@ def obj_to_post(obj,flag=True):#obj는 그냥 레코드 형태의 객체로 들�
         del post['tags'],post['update_date'],post['description'],post['content']
     
     return post
+
+
+def prev_next_post(obj):
+    try:
+        prevObj = obj.get_previous_by_update_date() #get_previous_by -> 지금 받은 레코드의 이전 레코드를 가져올 수 있음.by_update() -> 업데이트된 날짜순
+        prevDict = {
+            'id' : prevObj.id,
+            'title' : prevObj.title,
+        }
+    except obj.DoesNotExist: #레코드에 내장돼있는 예외문. prevObj = obj.get_previous_by_update() -> 이게 오류가 발생했을 때 예외문 실행이기 때문에 이전 데이터가 없다는 것임.
+        prevDict = {}
+    
+    try:
+        nextObj = obj.get_next_by_update_date() 
+        nextDict = {
+            'id' : nextObj.id,
+            'title' : nextObj.title,
+        }
+    except obj.DoesNotExist: #레코드에 내장돼있는 예외문. 
+        nextDict = {}
+    
+    return prevDict,nextDict

@@ -8,7 +8,11 @@
         delimiters:['[[',']]'], //vue랑 django템플릿을 둘 다 쓰고 있기 때문에 템플릿 충돌을 방지하기 위한 코드
         data(){ //post로 데이터를 받아온 값을 저장할 함수
             return{
-                post: {} //Django에서 보낸 Post 레코드 들을 json형태로 저장할 곳
+                post: {}, //Django에서 보낸 Post 레코드 들을 json형태로 저장할 곳
+                prevPost:{},
+                nextPost:{},
+                cateList:[],
+                tagList:[],
             };
         },
         created(){
@@ -16,6 +20,7 @@
             //이 페이지에서는 페이지에 필요한 post레코드 1개가 필요함
             const postId = location.pathname.split('/')[3]; //url에 있는 post id 를 가져옴
             this.fetchPostDetail(postId);
+            this.fetchCateTagList();
             
         },
         methods: {//함수 정의 부분
@@ -24,15 +29,30 @@
                 axios.get(`/api/post/${postId}`) //파라미터로 들어가는 url로 비동기 get request
                 .then(res => { //앞의 함수가 성공을 하면 실행. 성공했을 때 받은 response를 res에 받고 
                     console.log('FETCHPOSTDETAIL GET RES',res);
-                    this.post = res.data; //받은 데이터를 data()안에 있는 post에 저장
+                    this.post = res.data.post; //받은 데이터를 data()안에 있는 post에 저장
+                    this.prevPost = res.data.prevPost;
+                    this.nextPost = res.data.nextPost;
                 })
                 .catch(err => { //앞 함수 실패시 실행
                     console.log("FETCHPOSTDETAIL GET ERR.RESPONSE",err.response);
                     alert(`${err.response.status}${err.respone.statusTExt}`);
                 });
             },
+            fetchCateTagList(){
+                console.log("fetchCateTagList()...");
+                axios.get('/api/catetag')
+                .then(res =>{
+                    console.log('FETCH CATETAG LIST RES',res);
+                    this.cateList = res.data.cateList;
+                    this.tagList = res.data.tagList;
+                })
+                .catch(err => {
+                    console.error("Error fetching category and tag list:",err.response);
+                    alert(`${err.response.status}${err.respone.statusTExt}`);
+                });
+            },
         },
 
     };
-Vue.createApp(PostDetailApp).mount('#page-top')
+Vue.createApp(PostDetailApp).mount('#page-top');
 </script>
