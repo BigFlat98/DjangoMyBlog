@@ -13,4 +13,5 @@ class ApiPostLV(BaseListView):#BaseListView DB에서 레코드 가져오는 클�
         postList = [obj_to_post(obj,False) for obj in qs] 
         return JsonResponse(data=postList, safe=False, status=200) #json형식으로 데이터(postList) 전달, 장고에서 json형태의 데이터 전달시 각 속성의 값별로 저장이 돼있는 데이터를 하나의 문자열 느낌으로 바꿔서 전달해야 함. 이때 정상적으로 데이터가 작업이 됐는지 확인하는 과정이 있는데 safe=flase로 하면 이 작업 수행을 안함.
                                                                     #status -> http통신시 200번으로 고정, 장고측에서 response는 끝났기 때문에 200번 쏴주고 연결 종료.
+                                                                    #safe -> dictionary형태면 True, 아니면 false 리턴하는 검사 기능이 있는데, 여기서 safe=false 는 그 기능을 끄겠다는 의미
     
