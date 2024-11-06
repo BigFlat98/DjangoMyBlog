@@ -1,0 +1,36 @@
+
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> <!--vue cdn-->
+<script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script> <!--axios cdn-->
+<script>
+    //vue로 사용하는 앱을 클래스 형태로 정의. 이건 vue앱을 생성하는 문법임. 클래스 만드는게 아니라
+    //js코드는 따로 호출되지 않아도 html을 실행하면 자동으로 실행됨.
+    const PostListApp = {
+        delimiters:['[[',']]'], //vue랑 django템플릿을 둘 다 쓰고 있기 때문에 템플릿 충돌을 방지하기 위한 코드
+        data(){ //post로 데이터를 받아온 값을 저장할 함수
+            return{
+                postList: [] //Django에서 보낸 Post 레코드 들을 json형태로 저장할 곳
+            };
+        },
+        created(){ //렌더링되기 전에 create단계를 거치는데 그 단계에서 수행할 내용 작성
+            //create -> dom에 있는 엘리멘트를 통해서 컴포넌트(엘리멘트로 화면에 뿌려지는 내용 생성)를 생성하는 과정
+            console.log('created()...');
+            this.fetchPostList(); //
+        },
+        methods: {//함수 정의 부분
+            fetchPostList(){
+                axios.get('/api/post/list') //파라미터로 들어가는 url로 비동기 get통신
+                .then(res => { //앞의 함수가 성공을 하면 실행. 성공했을 때 받은 response를 res에 받고 
+                    console.log('FETCHPOSTLIST GET RES',res);
+                    this.postList = res.data; //받은 데이터를 리스트에 저장
+                })
+                .catch(err => { //앞 함수 실패시 실행
+                    console.log("FETCHPOSTLIST GET ERR.RESPONSE",err.response);
+                    alert(`${err.response.status}${err.respone.statusTExt}`);
+                });
+            },
+        },
+
+    };
+Vue.createApp(PostListApp).mount('#page-top')
+</script>
