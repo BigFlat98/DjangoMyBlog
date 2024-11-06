@@ -3,6 +3,8 @@
 def obj_to_post(obj,flag=True):#obj는 그냥 레코드 형태의 객체로 들어옴
     #가져온 테이터를 Json 형태로 parsing할 수 있도록 데이터를 하나의 긴 문자열 형태로 변경해줘야함.
     post = dict(vars(obj))#obj로 들어오는 속성들을 post dictionary의 Key로 저장하겠다.
+                          #여기서 값은 실제 값처럼 문자열 같은게 들어있는게 아닌 값을 참조할 수 있는 형태로 들어있음 obj.category 그냥 이런식으로
+                          #이걸 json은 해독할 방법이 없음. 그래서 속성에 해당하는 값을 직접 참조해서 넣어주는 작업을 하는거임
 
     if obj.category:#속성이 있으면 
         post['category'] = obj.category.name #obj에 레코드 객체를 받을 때 해당 객체에는 연결돼있는 다른 레코드의 데이터도 함께 받아지는건지?

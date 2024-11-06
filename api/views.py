@@ -39,9 +39,9 @@ class ApiPostDV(BaseDetailView):#pk값을 사용하지 않았는데 어떻게 �
 class ApiCateTagView(View):#
     def get(self,request,*args,**kwargs):
         qs1 = Category.objects.all()
-        qs2 =Tag.objects.all()
+        qs2 =Tag.objects.all() #list의 각 인덱스에 레코드를 queryset 객체 형태로 가져와 저장
         cateList = [cate.name for cate in qs1]
-        tagList = [tag.name for tag in qs2]
+        tagList = [tag.name for tag in qs2] #인덱스마다 q2에 있는 name을 꺼내서 저장.
         jsonData = {
             'cateList':cateList,
             'tagList':tagList,
