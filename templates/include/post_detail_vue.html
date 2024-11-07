@@ -42,7 +42,7 @@
                 })
                 .catch(err => { //앞 함수 실패시 실행
                     console.log("FETCHPOSTDETAIL GET ERR.RESPONSE",err.response);
-                    alert(`${err.response.status}${err.respone.statusTExt}`);
+                    alert(`${err.response.status}${err.respone.statusText}`);
                 });
             },
             fetchCateTagList(){
@@ -55,7 +55,7 @@
                 })
                 .catch(err => {
                     console.error("Error fetching category and tag list:",err.response);
-                    alert(`${err.response.status}${err.respone.statusTExt}`);
+                    alert(`${err.response.status}${err.respone.statusText}`);
                 });
             },
             serverPage(category='',tag=''){
@@ -77,7 +77,7 @@
                 })
                 .catch(err => {
                     console.error("LIKECOUNT Error:",err.response);
-                    alert(`${err.response.status}${err.respone.statusTExt}`);
+                    alert(`${err.response.status}${err.respone.statusText}`);
                 });
             },
             submitForm(){
@@ -91,7 +91,7 @@
                 })
                 .catch(err => {
                     console.error("CREATE-COMMENT Error:",err.response);
-                    alert(`${err.response.status}${err.respone.statusTExt}`);
+                    alert(`${err.response.status}${err.respone.statusText}`);
                 });
                 //this.resetForm()
             },

@@ -47,5 +47,5 @@ class Comment(models.Model):
     def short_content(self): #처음 리턴할 때 속성의 값의 처음 10글자만.
         return self.content[:10]
     
-    def __str__(self):
+    def __str__(self): #문자열 반환해야 함.
         return self.short_content
