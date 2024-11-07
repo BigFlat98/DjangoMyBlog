@@ -13,6 +13,10 @@
         color:#123;
     
     }
+    .my-like:hover{
+        cursor:pinter;
+        color:red;
+    }
 </style>
 {% endblock %}
 
@@ -32,15 +36,15 @@
                         <p>
                             <span>[[post.update_date]] &emsp;</span>
                             <i class='fas fa-copyright'></i> &nbsp; <!--i태그 -> icon을 사용하기 위한 태그 -->
-                            <span>[[post.category]] &emsp;</span>
+                            <span class='my-link' @click="serverPage(post.category,'')">[[post.category]] &emsp;</span>
                             <i class='fas fa-tag'></i> &nbsp;
                             <span v-for="(tag,index) in post.tags" :key="index">
                                 <span v-if='index !==0'>,</span>
-                                <span>[[tag]]</span>
+                                <span class='my-link' @click="serverPage('',tag)">[[tag]]</span>
                             </span>
                             <span> &emsp;</span>
-                            <i class='fas fa-heart'></i> &nbsp;
-                            <span>5 &emsp;</span>
+                            <span @click="likeCount(post.id)"><i class='fas fa-heart my-like'></i></span> &nbsp;
+                            <span class='my-link' >[[post.like]]</span>
                         </p>
                         <hr />
                     </header>

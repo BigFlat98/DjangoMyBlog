@@ -57,7 +57,23 @@
                 else if(category) location.href = `/?category=${category}#portfolio`;//query문이란. 서버에 get요청을 할 때 url뒤에 우리가 의도한 값을 추가해서 전달
                 else if(tag) location.href = `/?tag=${tag}#portfolio`;// 이러면 127.0.0.1:8000/?tag='tag'#portfolio 이렇게 요청됨
                 else location.href = '/#portfolio';
-            }
+            },//query문을 추가해 get요청을 하는 동작을 하게 하는 이 함수는 post_detail의 태그 안에서 호출될 것이고, 
+             //index페이지로 query문이 포함돼서 이동했을 때, index의 vue에서 get을 통해 장고의 view에 갈 때 view에서 url의 쿼리문을 가지고 원하는 데이터만 리턴하도록 수정
+
+             likeCount(postId){
+                console.log('likeCount()..',postId);
+                axios.get(`/api/like/${postId}/`) //view에서 model에 있는 좋아요 1개 증가
+                .then(res =>{ //증가한 좋아요를 다시 받아옴
+                    console.log("LIKE-COUNT GET RES",res)
+                    this.post.like = res.data; //받아온 값으로 이미 vue에서 정의해 좋은 like를 초기화
+
+                })
+                .catch(err => {
+                    console.error("Error:",err.response);
+                    alert(`${err.response.status}${err.respone.statusTExt}`);
+                });
+             },
+            
         },
 
     };

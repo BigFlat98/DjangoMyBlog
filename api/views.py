@@ -9,7 +9,20 @@ from django.views import View
 
 
 class ApiPostLV(BaseListView):#BaseListView DB에서 레코드 전부 가져오는 클래스
-    model = Post
+    # model = Post -> get_queryset 오버라이딩 하면서 안에 Post 참조해서 레코드를 가져왔기 때문에 model을 정의해줄 필요가 사라짐.
+    def get_queryset(self): #url에 쿼리문이 포함돼서 들어왔을 때 해당 값을 사용하기 위한 함수
+        paramCate = self.request.GET.get('category')
+        paramTag = self.request.GET.get('tag')
+        if paramCate:
+            qs = Post.objects.filter(category__name__iexact = paramCate) #Post테이블에 있는 레코드 중 category의 이름이 paramCate와 같은 레코드만 가져오겠다.
+        elif paramTag:
+            qs = Post.objects.filter(tags__name__iexact = paramTag)
+        else:
+            qs =Post.objects.all()
+        return qs
+    
+
+    #위의 함수에서 리턴된 값은 context에 들어오는 값들을 정해줌. 그 값들이 이 함수의 qs에 들어감.(qs는 지역변수임)
     def render_to_response(self, context, **response_kwargs): #내 데이터 형식에 맞에 오버라이딩. 
         qs = context['object_list'] #context의 object_list key의 value에 모든 레코드들이 저장돼서 들어오는데 그 리스트를 qs에 저장
         postList = [obj_to_post(obj,False) for obj in qs] 
@@ -47,6 +60,15 @@ class ApiCateTagView(View):#
             'tagList':tagList,
         }
         return JsonResponse(data=jsonData,safe=True,status=200)
+
+class ApiPostLikeDV(BaseDetailView):
+    model = Post
+    def render_to_response(self,context,**response_kwargs):
+        #url에서 받아온 pk
+        obj = context['object']
+        obj.like += 1
+        obj.save()
+        return JsonResponse(data=obj.like , safe = False, status=200)
 
 
 
