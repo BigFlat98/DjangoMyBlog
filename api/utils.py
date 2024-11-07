@@ -55,3 +55,16 @@ def prev_next_post(obj):
         nextDict = {}
     
     return prevDict,nextDict
+
+
+def obj_to_comment(obj):
+    comment = dict(vars(obj))
+    if obj.update_date:
+        comment['update_date'] = obj.update_date.strftime('%Y-%m-%d %H:%M:%S')
+    else :
+        comment['update_date'] = "9999-12-31 00:00:00"
+    
+    del comment['_state'],comment['post_id'],comment['create_date']
+        #comment['_state'] -> foreign key를 통한 참조로 가져올 경우 가져와지는 속성. 필요없어서 삭제
+
+    return comment

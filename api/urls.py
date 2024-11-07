@@ -8,4 +8,5 @@ urlpatterns = [
     path('post/<int:pk>/',api_views.ApiPostDV.as_view(), name='post_Detail'),
     path('catetag/',api_views.ApiCateTagView.as_view(), name='catetag_list'),
     path('like/<int:pk>/',api_views.ApiPostLikeDV.as_view(), name='post_like'),
+    path('comment/create/',api_views.ApiCommentCV.as_view(), name='comment_create'),
 ]

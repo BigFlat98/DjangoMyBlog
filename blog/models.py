@@ -48,4 +48,4 @@ class Comment(models.Model):
         return self.content[:10]
     
     def __str__(self):
-        return self.id
+        return self.short_content

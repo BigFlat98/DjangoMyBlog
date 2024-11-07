@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.generic.list import BaseListView
-from api.utils import obj_to_post,prev_next_post
-from blog.models import Post,Category,Tag
+from api.utils import obj_to_post,prev_next_post,obj_to_comment
+from blog.models import Post,Category,Tag,Comment
 from django.views.generic.detail import BaseDetailView
 from django.views import View
+from django.views.generic.edit import BaseCreateView
 # Create your views here.
 
 
@@ -40,10 +41,14 @@ class ApiPostDV(BaseDetailView):#pk값을 사용하지 않았는데 어떻게 �
         post = obj_to_post(obj)
         prevPost, nextPost = prev_next_post(obj)
 
+        commentqs = obj.comment_set.all() #Post 테이블에서 postid
+        commentList = [obj_to_comment(obj) for obj in commentqs]
+
         jsonData = {
             'post':post,
             'prevPost':prevPost,
             'nextPost':nextPost,
+            'commentList':commentList,
         }
         return JsonResponse(data = jsonData, safe = True, status=200)
         #json 데이터는 긴 문자열로 이뤄져 있으며 키와 값이 괄호로 묶여서 구분되게 적혀있음. 어떤 데이터를 그러한 형식으로 변환하기 위해서는 변환 시킬 수 있는 형태여야함.
@@ -70,5 +75,15 @@ class ApiPostLikeDV(BaseDetailView):
         obj.save()
         return JsonResponse(data=obj.like , safe = False, status=200)
 
+class ApiCommentCV(BaseCreateView): #BaseCreateView 레코드를 만들기 위한 클래스.
+    model = Comment
+    fields = '__all__' #모든 필드의 값을 가져온다.
 
+    def form_valid(self, form): #vue를 통해 전달받은 값은 form에 들어옴.
+        self.object =form.save()#가져온 값을 저장
+        comment =obj_to_comment(self.object) #가져온 값을 다시 html로 쏴주기 위한 시리얼라이즈
+        return JsonResponse(data=comment,safe=True,status=200)
+    
+    def form_invalid(self,form): #csrf token 적용이 안됐을 때 이 함수 실행
+        return JsonResponse(data=form.errors,safe=True,status=200)
 

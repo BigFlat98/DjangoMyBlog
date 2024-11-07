@@ -4,6 +4,11 @@
 <script>
     //vue로 사용하는 앱을 클래스 형태로 정의. 이건 vue앱을 생성하는 문법임. 클래스 만드는게 아니라
     //js코드는 따로 호출되지 않아도 html을 실행하면 자동으로 실행됨.
+
+    //장고와 vue 사용시 form을 전달할 때 csrf 토큰은 사용한다면 이 코드는 필수이고 변경점 없음. 장고에서 보내주는 토큰을 받기 위한 코드.
+    axios.defaults.xsrfCookieName = 'csrftoken'; //장고에서 보내줄 때 변수 명이 이렇게 고정돼있기 때문에 이걸 바꿔주면 안됨.
+    axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'; //여기도 마찬가지.
+
     const PostDetailApp = {
         delimiters:['[[',']]'], //vue랑 django템플릿을 둘 다 쓰고 있기 때문에 템플릿 충돌을 방지하기 위한 코드
         data(){ //post로 데이터를 받아온 값을 저장할 함수
@@ -13,6 +18,7 @@
                 nextPost:{},
                 cateList:[],
                 tagList:[],
+                commentList: [],
             };
         },
         created(){
@@ -32,6 +38,7 @@
                     this.post = res.data.post; //받은 데이터를 data()안에 있는 post에 저장
                     this.prevPost = res.data.prevPost;
                     this.nextPost = res.data.nextPost;
+                    this.commentList = res.data.commentList;
                 })
                 .catch(err => { //앞 함수 실패시 실행
                     console.log("FETCHPOSTDETAIL GET ERR.RESPONSE",err.response);
@@ -53,27 +60,41 @@
             },
             serverPage(category='',tag=''){
                 console.log("serverPage()...",category,tag);
-                if (category && tag) alret(`serverPage( both args Error ${category} and ${tag})`);
+                if (category && tag) alret(`serverPage( both args Error ${category} and ${tag})`); //두 값이 한번에 들어오면 안됨. 카테고리만 들어오던가 태그만 들어오던가. 만약 같이 들어오는 경우 처리
                 else if(category) location.href = `/?category=${category}#portfolio`;//query문이란. 서버에 get요청을 할 때 url뒤에 우리가 의도한 값을 추가해서 전달
                 else if(tag) location.href = `/?tag=${tag}#portfolio`;// 이러면 127.0.0.1:8000/?tag='tag'#portfolio 이렇게 요청됨
-                else location.href = '/#portfolio';
+                else location.href = '/#portfolio'; //location.href -> 현재 페이지의 url을 가져오거나 변경. 현재 페이지 url에 대입연산자로 받는값을 추가.변경 됐을 때 해당 url로 리다이렉션함.
             },//query문을 추가해 get요청을 하는 동작을 하게 하는 이 함수는 post_detail의 태그 안에서 호출될 것이고, 
              //index페이지로 query문이 포함돼서 이동했을 때, index의 vue에서 get을 통해 장고의 view에 갈 때 view에서 url의 쿼리문을 가지고 원하는 데이터만 리턴하도록 수정
 
-             likeCount(postId){
+            likeCount(postId){
                 console.log('likeCount()..',postId);
                 axios.get(`/api/like/${postId}/`) //view에서 model에 있는 좋아요 1개 증가
                 .then(res =>{ //증가한 좋아요를 다시 받아옴
-                    console.log("LIKE-COUNT GET RES",res)
+                    console.log("LIKE-COUNT GET RES",res);
                     this.post.like = res.data; //받아온 값으로 이미 vue에서 정의해 좋은 like를 초기화
 
                 })
                 .catch(err => {
-                    console.error("Error:",err.response);
+                    console.error("LIKECOUNT Error:",err.response);
                     alert(`${err.response.status}${err.respone.statusTExt}`);
                 });
-             },
-            
+            },
+            submitForm(){
+                console.log("submitForm()..");
+                let formdata = new FormData(document.getElementById('comment-form'));//dom에 있는 id가 comment-form인 요소 찾아서 입력값을 가져와 formdata에 저장
+                formdata.set('post',this.post.id); //formdata에 있는 post키의 값을 post.id로 저장
+                axios.post('/api/comment/create/',formdata)//입력값을 전달하기 위해 post방식으로 전달. 이를 사용하기 위해 script밖에 토큰 받아오는 코드 작성 필요함.
+                .then(res => {
+                    console.log("CREATE-COMMENT-POST-RES",res);
+                    this.commentList.push(res.data);//commentList에 push함수 파라미터로 받은 값을 저장
+                })
+                .catch(err => {
+                    console.error("CREATE-COMMENT Error:",err.response);
+                    alert(`${err.response.status}${err.respone.statusTExt}`);
+                });
+                //this.resetForm()
+            },
         },
 
     };
