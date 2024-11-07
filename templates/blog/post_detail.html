@@ -116,7 +116,7 @@
 
                         <span v-for='(category, index) in cateList' :key="category.id">
                             <span v-if="index !==0">&emsp;</span>
-                            <span class = " text-success my-link">[[category]]</span>
+                            <span class = " text-success my-link" @click="serverPage(category,'')">[[category]]</span>
                         </span>
                         
                     </div>
@@ -127,7 +127,7 @@
                     <div class="card-body">
                         <span v-for='(tag, index) in tagList' :key="tag.id">
                             <span v-if="index !==0">&emsp;</span>
-                            <span class = " text-success my-link">[[tag]]</span>
+                            <span class = " text-success my-link" @click="serverPage('',tag)">[[tag]]</span>
                         </span>
                     </div>
                 </div>

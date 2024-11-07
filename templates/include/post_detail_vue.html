@@ -51,6 +51,13 @@
                     alert(`${err.response.status}${err.respone.statusTExt}`);
                 });
             },
+            serverPage(category='',tag=''){
+                console.log("serverPage()...",category,tag);
+                if (category && tag) alret(`serverPage( both args Error ${category} and ${tag})`);
+                else if(category) location.href = `/?category=${category}#portfolio`;//query문이란. 서버에 get요청을 할 때 url뒤에 우리가 의도한 값을 추가해서 전달
+                else if(tag) location.href = `/?tag=${tag}#portfolio`;// 이러면 127.0.0.1:8000/?tag='tag'#portfolio 이렇게 요청됨
+                else location.href = '/#portfolio';
+            }
         },
 
     };
