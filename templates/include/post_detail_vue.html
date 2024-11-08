@@ -47,7 +47,7 @@
             },
             fetchCateTagList(){
                 console.log("fetchCateTagList()...");
-                axios.get('/api/catetag')
+                axios.get('/api/catetag') //비동기 함수 axios.get() -> 함수 실행되는 동안 밑의 다른 코드 실행.
                 .then(res =>{
                     console.log('FETCH CATETAG LIST RES',res);
                     this.cateList = res.data.cateList;
